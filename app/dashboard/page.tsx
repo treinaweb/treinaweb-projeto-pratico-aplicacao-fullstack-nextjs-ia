@@ -1,5 +1,8 @@
+import Link from "next/link";
+
 import { requireSession } from "@/lib/auth/session";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function DashboardPage() {
@@ -15,6 +18,9 @@ export default async function DashboardPage() {
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             {session.user.email}
           </p>
+          <Link href="/profile" className={buttonVariants({ variant: "outline" })}>
+            Meu perfil
+          </Link>
           <LogoutButton />
         </CardContent>
       </Card>

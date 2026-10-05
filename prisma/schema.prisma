@@ -70,3 +70,130 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+model CandidateProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  headline  String?
+  phone     String?
+  location  String?
+  summary   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  workExperiences WorkExperience[]
+  educations      Education[]
+  courses         Course[]
+  projects        Project[]
+  links           ProfileLink[]
+  skills          Skill[]
+  languages       Language[]
+
+  @@map("candidate_profile")
+}
+
+model WorkExperience {
+  id          String           @id @default(cuid())
+  profileId   String
+  profile     CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  company     String
+  role        String
+  startDate   DateTime
+  endDate     DateTime?
+  description String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([profileId])
+  @@map("work_experience")
+}
+
+model Education {
+  id          String           @id @default(cuid())
+  profileId   String
+  profile     CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  institution String
+  degree      String
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([profileId])
+  @@map("education")
+}
+
+model Course {
+  id            String           @id @default(cuid())
+  profileId     String
+  profile       CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  name          String
+  institution   String?
+  completedAt   DateTime?
+  workloadHours Int?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([profileId])
+  @@map("course")
+}
+
+model Project {
+  id          String           @id @default(cuid())
+  profileId   String
+  profile     CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  link        String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([profileId])
+  @@map("project")
+}
+
+model ProfileLink {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  label     String
+  url       String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([profileId])
+  @@map("profile_link")
+}
+
+model Skill {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  name      String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([profileId])
+  @@map("skill")
+}
+
+enum LanguageProficiency {
+  BASIC
+  INTERMEDIATE
+  ADVANCED
+  FLUENT
+  NATIVE
+}
+
+model Language {
+  id          String              @id @default(cuid())
+  profileId   String
+  profile     CandidateProfile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  name        String
+  proficiency LanguageProficiency
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@index([profileId])
+  @@map("language")
+}
