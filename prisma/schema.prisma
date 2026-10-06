@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -222,7 +221,22 @@ model JobPosting {
   rawText          String        @db.Text
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+  resumes          Resume[]
 
   @@index([userId, createdAt])
   @@map("job_posting")
+}
+
+model Resume {
+  id           String     @id @default(cuid())
+  userId       String
+  jobPostingId String
+  jobPosting   JobPosting @relation(fields: [jobPostingId], references: [id], onDelete: Cascade)
+  language     String
+  content      Json
+  createdAt    DateTime   @default(now())
+
+  @@index([userId, createdAt])
+  @@index([jobPostingId])
+  @@map("resume")
 }

@@ -24,6 +24,9 @@ export default async function DashboardPage() {
           <Link href="/jobs" className={buttonVariants({ variant: "outline" })}>
             Minhas vagas
           </Link>
+          <Link href="/resumes" className={buttonVariants({ variant: "outline" })}>
+            Meus currículos
+          </Link>
           <LogoutButton />
         </CardContent>
       </Card>

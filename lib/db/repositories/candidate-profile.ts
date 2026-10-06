@@ -30,3 +30,23 @@ export async function updatePersonalInfo(
     data,
   });
 }
+
+// Profile with every list, ordered as on /profile. Used to generate resumes.
+export async function getFullProfile(userId: string) {
+  const profile = await getOrCreateProfile(userId);
+
+  return prisma.candidateProfile.findUniqueOrThrow({
+    where: { id: profile.id },
+    include: {
+      workExperiences: { orderBy: { startDate: "desc" } },
+      educations: { orderBy: { startDate: "desc" } },
+      courses: { orderBy: { createdAt: "desc" } },
+      projects: { orderBy: { createdAt: "desc" } },
+      links: { orderBy: { createdAt: "desc" } },
+      skills: { orderBy: { createdAt: "desc" } },
+      languages: { orderBy: { createdAt: "desc" } },
+    },
+  });
+}
+
+export type FullProfile = Awaited<ReturnType<typeof getFullProfile>>;

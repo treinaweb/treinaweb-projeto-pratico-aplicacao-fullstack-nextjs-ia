@@ -9,3 +9,7 @@ const openai = createOpenAI({
 export const jobParserModel = openai(
   process.env.OPENAI_JOB_PARSER_MODEL ?? "gpt-5.4-mini",
 );
+
+export const resumeWriterModel = openai(
+  process.env.OPENAI_RESUME_WRITER_MODEL ?? "gpt-5.4-mini",
+);

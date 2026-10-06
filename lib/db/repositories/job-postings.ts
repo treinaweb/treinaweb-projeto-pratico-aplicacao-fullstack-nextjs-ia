@@ -13,6 +13,12 @@ export async function listJobPostings(userId: string) {
   });
 }
 
+export async function getJobPosting(userId: string, id: string) {
+  return prisma.jobPosting.findFirst({
+    where: { id, userId },
+  });
+}
+
 export async function createJobPosting(userId: string, data: JobPostingInput) {
   return prisma.jobPosting.create({
     data: { ...data, userId },

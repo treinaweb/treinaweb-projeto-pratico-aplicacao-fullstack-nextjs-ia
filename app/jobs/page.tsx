@@ -59,9 +59,17 @@ export default async function JobPostingsPage() {
                         {jobPosting.company ?? "Empresa não informada"}
                       </p>
                     </div>
-                    <p className="shrink-0 text-sm text-zinc-500">
-                      Salva em {dateFormatter.format(jobPosting.createdAt)}
-                    </p>
+                    <div className="flex shrink-0 flex-col items-end gap-2">
+                      <p className="text-sm text-zinc-500">
+                        Salva em {dateFormatter.format(jobPosting.createdAt)}
+                      </p>
+                      <Link
+                        href={`/resumes/new?jobPostingId=${jobPosting.id}`}
+                        className={buttonVariants({ variant: "outline", size: "sm" })}
+                      >
+                        Gerar currículo
+                      </Link>
+                    </div>
                   </CardContent>
                 </Card>
               </li>
