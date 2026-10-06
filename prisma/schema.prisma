@@ -263,6 +263,7 @@ model InterviewSession {
   createdAt     DateTime           @default(now())
   completedAt   DateTime?
   messages      InterviewMessage[]
+  analysis      InterviewAnalysis?
 
   @@index([userId, createdAt])
   @@index([resumeId])
@@ -279,4 +280,15 @@ model InterviewMessage {
 
   @@index([sessionId, createdAt])
   @@map("interview_message")
+}
+
+model InterviewAnalysis {
+  id           String           @id @default(cuid())
+  sessionId    String           @unique
+  session      InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  overallScore Int
+  content      Json
+  createdAt    DateTime         @default(now())
+
+  @@map("interview_analysis")
 }

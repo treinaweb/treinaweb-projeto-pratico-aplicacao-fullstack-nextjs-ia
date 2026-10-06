@@ -73,6 +73,11 @@ export default async function InterviewsPage() {
                           >
                             {completed ? "Concluída" : "Em andamento"}
                           </span>
+                          {interview.analysis && (
+                            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                              Nota {interview.analysis.overallScore}
+                            </span>
+                          )}
                           <p className="text-sm text-zinc-500">
                             {dateFormatter.format(interview.createdAt)}
                           </p>

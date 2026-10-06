@@ -17,3 +17,7 @@ export const resumeWriterModel = openai(
 export const interviewerModel = openai(
   process.env.OPENAI_INTERVIEWER_MODEL ?? "gpt-5.4-mini",
 );
+
+export const interviewAnalyzerModel = openai(
+  process.env.OPENAI_INTERVIEW_ANALYZER_MODEL ?? "gpt-5.4-mini",
+);

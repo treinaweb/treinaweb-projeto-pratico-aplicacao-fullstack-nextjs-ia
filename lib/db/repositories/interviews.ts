@@ -49,6 +49,7 @@ export async function listInterviews(userId: string) {
       resume: {
         select: { jobPosting: { select: { title: true, company: true } } },
       },
+      analysis: { select: { overallScore: true } },
     },
   });
 }
