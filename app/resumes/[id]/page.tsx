@@ -35,6 +35,12 @@ export default async function ResumePage({ params }: PageProps<"/resumes/[id]">)
             >
               Voltar
             </Link>
+            <Link
+              href={`/interviews/new?resumeId=${resume.id}`}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              Simular entrevista
+            </Link>
             {/* Plain anchor: the PDF is a file download, not a page. */}
             <a href={`/resumes/${resume.id}/pdf`} className={buttonVariants()}>
               Baixar PDF
