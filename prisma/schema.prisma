@@ -197,3 +197,32 @@ model Language {
   @@index([profileId])
   @@map("language")
 }
+
+enum JobWorkModel {
+  REMOTE
+  HYBRID
+  ONSITE
+}
+
+model JobPosting {
+  id               String        @id @default(cuid())
+  userId           String
+  title            String
+  company          String?
+  location         String?
+  workModel        JobWorkModel?
+  employmentType   String?
+  seniority        String?
+  salary           String?
+  summary          String?
+  responsibilities String[]
+  requirements     String[]
+  niceToHave       String[]
+  benefits         String[]
+  rawText          String        @db.Text
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([userId, createdAt])
+  @@map("job_posting")
+}
