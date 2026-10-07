@@ -9,7 +9,15 @@ export async function listJobPostings(userId: string) {
   return prisma.jobPosting.findMany({
     where: { userId },
     orderBy: { createdAt: "desc" },
-    select: { id: true, title: true, company: true, createdAt: true },
+    select: {
+      id: true,
+      title: true,
+      company: true,
+      location: true,
+      workModel: true,
+      seniority: true,
+      createdAt: true,
+    },
   });
 }
 

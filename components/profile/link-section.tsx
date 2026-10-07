@@ -1,11 +1,13 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { Link2 } from "lucide-react";
 
-import { createLink, deleteLink, updateLink } from "@/app/profile/actions";
+import { createLink, deleteLink, updateLink } from "@/app/(app)/profile/actions";
 import type { ProfileLinkModel } from "@/lib/generated/prisma/models";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SectionTitle } from "@/components/profile/section-title";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -29,7 +31,7 @@ function LinkFields({
           defaultValue={item?.label ?? ""}
         />
         {fieldErrors?.label && (
-          <p className="text-sm text-red-600">{fieldErrors.label}</p>
+          <p className="text-sm text-destructive">{fieldErrors.label}</p>
         )}
       </div>
       <div className="flex flex-col gap-1.5">
@@ -42,7 +44,7 @@ function LinkFields({
           defaultValue={item?.url ?? ""}
         />
         {fieldErrors?.url && (
-          <p className="text-sm text-red-600">{fieldErrors.url}</p>
+          <p className="text-sm text-destructive">{fieldErrors.url}</p>
         )}
       </div>
     </>
@@ -77,7 +79,7 @@ function EditLinkForm({
         item={item}
         fieldErrors={state?.fieldErrors}
       />
-      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
       <div className="flex gap-2">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? "Salvando..." : "Salvar"}
@@ -100,7 +102,7 @@ export function LinkSection({ items }: { items: ProfileLinkModel[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Links úteis</CardTitle>
+        <SectionTitle icon={Link2} title="Links úteis" count={items.length} />
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {items.map((item) =>
@@ -116,14 +118,14 @@ export function LinkSection({ items }: { items: ProfileLinkModel[] }) {
               className="flex items-start justify-between gap-4 rounded-md border border-border p-4"
             >
               <div>
-                <p className="font-medium text-black dark:text-zinc-50">
+                <p className="font-medium text-foreground">
                   {item.label}
                 </p>
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm text-zinc-950 underline dark:text-zinc-50"
+                  className="text-sm text-primary hover:underline"
                 >
                   {item.url}
                 </a>
@@ -153,7 +155,7 @@ export function LinkSection({ items }: { items: ProfileLinkModel[] }) {
             fieldErrors={createState?.fieldErrors}
           />
           {createState?.error && (
-            <p className="text-sm text-red-600">{createState.error}</p>
+            <p className="text-sm text-destructive">{createState.error}</p>
           )}
           <Button type="submit" size="sm" disabled={creating} className="self-start">
             {creating ? "Adicionando..." : "Adicionar link"}

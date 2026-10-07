@@ -11,7 +11,7 @@ import type { ResumeContent } from "@/lib/validation/resume";
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="border-b border-zinc-200 pb-1 text-sm font-semibold uppercase tracking-wide text-zinc-700 dark:border-zinc-800 dark:text-zinc-300">
+      <h2 className="border-b border-zinc-200 pb-1 text-sm font-semibold uppercase tracking-wide text-zinc-700">
         {title}
       </h2>
       {children}
@@ -20,6 +20,8 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 }
 
 // Section order here must match lib/pdf/resume-template.tsx.
+// A white "paper" sheet on the dark app, like the exported PDF: the fixed
+// light colors are intentional, and there must be no dark: variants.
 export function ResumeView({ content }: { content: ResumeContent }) {
   const { language, contact } = content;
   const labels = RESUME_LABELS[language];
@@ -28,19 +30,19 @@ export function ResumeView({ content }: { content: ResumeContent }) {
   );
 
   return (
-    <article className="flex flex-col gap-6 rounded-xl bg-white p-8 text-sm text-zinc-800 shadow-sm ring-1 ring-zinc-200 dark:bg-zinc-950 dark:text-zinc-200 dark:ring-zinc-800">
+    <article className="flex flex-col gap-6 rounded-sm bg-white p-8 text-sm text-zinc-800 shadow-2xl shadow-black/40 ring-1 ring-black/5 sm:p-12">
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">
+        <h1 className="text-2xl font-semibold text-zinc-900">
           {contact.name}
         </h1>
-        <p className="text-base text-zinc-700 dark:text-zinc-300">
+        <p className="text-base text-zinc-700">
           {content.headline}
         </p>
-        <p className="text-zinc-600 dark:text-zinc-400">
+        <p className="text-zinc-600">
           {contactLine.join(" · ")}
         </p>
         {contact.links.length > 0 && (
-          <p className="flex flex-wrap gap-x-3 text-zinc-600 dark:text-zinc-400">
+          <p className="flex flex-wrap gap-x-3 text-zinc-600">
             {contact.links.map((link) => (
               <a
                 key={link.url}
@@ -67,7 +69,7 @@ export function ResumeView({ content }: { content: ResumeContent }) {
           {content.experiences.map((item, index) => (
             <div key={index} className="flex flex-col gap-1">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                <p className="font-medium text-black dark:text-zinc-50">
+                <p className="font-medium text-zinc-900">
                   {item.role} · {item.company}
                 </p>
                 <p className="text-zinc-500">
@@ -94,7 +96,7 @@ export function ResumeView({ content }: { content: ResumeContent }) {
               className="flex flex-wrap items-baseline justify-between gap-x-4"
             >
               <p>
-                <span className="font-medium text-black dark:text-zinc-50">
+                <span className="font-medium text-zinc-900">
                   {item.degree}
                 </span>{" "}
                 · {item.institution}
@@ -112,7 +114,7 @@ export function ResumeView({ content }: { content: ResumeContent }) {
           <ul className="flex flex-col gap-1">
             {content.courses.map((item, index) => (
               <li key={index}>
-                <span className="font-medium text-black dark:text-zinc-50">
+                <span className="font-medium text-zinc-900">
                   {item.name}
                 </span>
                 {[
@@ -132,7 +134,7 @@ export function ResumeView({ content }: { content: ResumeContent }) {
         <Section title={labels.projects}>
           {content.projects.map((item, index) => (
             <div key={index} className="flex flex-col gap-1">
-              <p className="font-medium text-black dark:text-zinc-50">
+              <p className="font-medium text-zinc-900">
                 {item.name}
                 {item.link && (
                   <>

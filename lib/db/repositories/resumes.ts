@@ -20,6 +20,7 @@ export async function listResumes(userId: string) {
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
+      language: true,
       createdAt: true,
       jobPosting: { select: { title: true, company: true } },
     },

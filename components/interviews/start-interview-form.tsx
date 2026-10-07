@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 
-import { startInterviewAction } from "@/app/interviews/actions";
+import { startInterviewAction } from "@/app/(app)/interviews/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -32,7 +32,7 @@ export function StartInterviewForm({
               id="resumeId"
               name="resumeId"
               defaultValue={selectedId ?? resumes[0]?.id}
-              className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+              className="rounded-lg border border-input bg-input/30 px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               {resumes.map((resume) => (
                 <option key={resume.id} value={resume.id}>
@@ -42,14 +42,14 @@ export function StartInterviewForm({
             </select>
           </div>
 
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-muted-foreground">
             Um entrevistador de IA fará até 8 perguntas, comportamentais e
             técnicas, com base na vaga e no currículo escolhido. Você pode
             pausar e continuar depois, ou encerrar quando quiser.
           </p>
 
           {state?.error && (
-            <p className="text-sm text-red-600">{state.error}</p>
+            <p className="text-sm text-destructive">{state.error}</p>
           )}
 
           <Button type="submit" disabled={pending} className="self-start">

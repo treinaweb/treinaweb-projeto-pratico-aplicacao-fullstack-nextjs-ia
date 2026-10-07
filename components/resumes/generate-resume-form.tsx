@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 
-import { generateResumeAction } from "@/app/resumes/actions";
+import { generateResumeAction } from "@/app/(app)/resumes/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -33,7 +33,7 @@ export function GenerateResumeForm({
               id="jobPostingId"
               name="jobPostingId"
               defaultValue={selectedId ?? jobPostings[0]?.id}
-              className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+              className="rounded-lg border border-input bg-input/30 px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               {jobPostings.map((jobPosting) => (
                 <option key={jobPosting.id} value={jobPosting.id}>
@@ -45,13 +45,13 @@ export function GenerateResumeForm({
             </select>
           </div>
 
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-muted-foreground">
             A IA usa somente os dados do seu perfil: ela escolhe e reescreve o
             que é relevante para a vaga, sem inventar informações.
           </p>
 
           {state?.error && (
-            <p className="text-sm text-red-600">
+            <p className="text-sm text-destructive">
               {state.error}{" "}
               {state.emptyProfile && (
                 <Link href="/profile" className="font-medium underline">

@@ -1,15 +1,17 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { Languages } from "lucide-react";
 
 import {
   createLanguage,
   deleteLanguage,
   updateLanguage,
-} from "@/app/profile/actions";
+} from "@/app/(app)/profile/actions";
 import type { LanguageModel } from "@/lib/generated/prisma/models";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SectionTitle } from "@/components/profile/section-title";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -40,7 +42,7 @@ function LanguageFields({
           defaultValue={item?.name ?? ""}
         />
         {fieldErrors?.name && (
-          <p className="text-sm text-red-600">{fieldErrors.name}</p>
+          <p className="text-sm text-destructive">{fieldErrors.name}</p>
         )}
       </div>
       <div className="flex flex-col gap-1.5">
@@ -49,7 +51,7 @@ function LanguageFields({
           id={`${idPrefix}-proficiency`}
           name="proficiency"
           defaultValue={item?.proficiency ?? "BASIC"}
-          className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+          className="rounded-lg border border-input bg-input/30 px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           {Object.entries(PROFICIENCY_LABELS).map(([value, label]) => (
             <option key={value} value={value}>
@@ -58,7 +60,7 @@ function LanguageFields({
           ))}
         </select>
         {fieldErrors?.proficiency && (
-          <p className="text-sm text-red-600">{fieldErrors.proficiency}</p>
+          <p className="text-sm text-destructive">{fieldErrors.proficiency}</p>
         )}
       </div>
     </>
@@ -93,7 +95,7 @@ function EditLanguageForm({
         item={item}
         fieldErrors={state?.fieldErrors}
       />
-      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
       <div className="flex gap-2">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? "Salvando..." : "Salvar"}
@@ -116,7 +118,7 @@ export function LanguageSection({ items }: { items: LanguageModel[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Idiomas</CardTitle>
+        <SectionTitle icon={Languages} title="Idiomas" count={items.length} />
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {items.map((item) =>
@@ -131,7 +133,7 @@ export function LanguageSection({ items }: { items: LanguageModel[] }) {
               key={item.id}
               className="flex items-center justify-between gap-4 rounded-md border border-border p-3"
             >
-              <p className="text-black dark:text-zinc-50">
+              <p className="text-foreground">
                 {item.name} · {PROFICIENCY_LABELS[item.proficiency]}
               </p>
               <div className="flex shrink-0 gap-2">
@@ -159,7 +161,7 @@ export function LanguageSection({ items }: { items: LanguageModel[] }) {
             fieldErrors={createState?.fieldErrors}
           />
           {createState?.error && (
-            <p className="text-sm text-red-600">{createState.error}</p>
+            <p className="text-sm text-destructive">{createState.error}</p>
           )}
           <Button type="submit" size="sm" disabled={creating} className="self-start">
             {creating ? "Adicionando..." : "Adicionar idioma"}

@@ -1,15 +1,17 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { BriefcaseBusiness } from "lucide-react";
 
 import {
   createWorkExperience,
   deleteWorkExperience,
   updateWorkExperience,
-} from "@/app/profile/actions";
+} from "@/app/(app)/profile/actions";
 import type { WorkExperienceModel } from "@/lib/generated/prisma/models";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SectionTitle } from "@/components/profile/section-title";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -48,7 +50,7 @@ function WorkExperienceFields({
           defaultValue={item?.company ?? ""}
         />
         {fieldErrors?.company && (
-          <p className="text-sm text-red-600">{fieldErrors.company}</p>
+          <p className="text-sm text-destructive">{fieldErrors.company}</p>
         )}
       </div>
       <div className="flex flex-col gap-1.5">
@@ -59,7 +61,7 @@ function WorkExperienceFields({
           defaultValue={item?.role ?? ""}
         />
         {fieldErrors?.role && (
-          <p className="text-sm text-red-600">{fieldErrors.role}</p>
+          <p className="text-sm text-destructive">{fieldErrors.role}</p>
         )}
       </div>
       <div className="flex gap-4">
@@ -72,7 +74,7 @@ function WorkExperienceFields({
             defaultValue={toDateInputValue(item?.startDate ?? null)}
           />
           {fieldErrors?.startDate && (
-            <p className="text-sm text-red-600">{fieldErrors.startDate}</p>
+            <p className="text-sm text-destructive">{fieldErrors.startDate}</p>
           )}
         </div>
         <div className="flex flex-1 flex-col gap-1.5">
@@ -84,7 +86,7 @@ function WorkExperienceFields({
             defaultValue={toDateInputValue(item?.endDate ?? null)}
           />
           {fieldErrors?.endDate && (
-            <p className="text-sm text-red-600">{fieldErrors.endDate}</p>
+            <p className="text-sm text-destructive">{fieldErrors.endDate}</p>
           )}
         </div>
       </div>
@@ -95,7 +97,7 @@ function WorkExperienceFields({
           name="description"
           defaultValue={item?.description ?? ""}
           rows={2}
-          className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+          className="rounded-lg border border-input bg-input/30 px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         />
       </div>
     </>
@@ -130,7 +132,7 @@ function EditWorkExperienceForm({
         item={item}
         fieldErrors={state?.fieldErrors}
       />
-      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
       <div className="flex gap-2">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? "Salvando..." : "Salvar"}
@@ -157,7 +159,7 @@ export function WorkExperienceSection({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Experiências profissionais</CardTitle>
+        <SectionTitle icon={BriefcaseBusiness} title="Experiências profissionais" count={items.length} />
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {items.map((item) =>
@@ -173,14 +175,14 @@ export function WorkExperienceSection({
               className="flex items-start justify-between gap-4 rounded-md border border-border p-4"
             >
               <div>
-                <p className="font-medium text-black dark:text-zinc-50">
+                <p className="font-medium text-foreground">
                   {item.role} · {item.company}
                 </p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="text-sm text-muted-foreground">
                   {formatPeriod(item.startDate, item.endDate)}
                 </p>
                 {item.description && (
-                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-1 text-sm text-muted-foreground">
                     {item.description}
                   </p>
                 )}
@@ -210,7 +212,7 @@ export function WorkExperienceSection({
             fieldErrors={createState?.fieldErrors}
           />
           {createState?.error && (
-            <p className="text-sm text-red-600">{createState.error}</p>
+            <p className="text-sm text-destructive">{createState.error}</p>
           )}
           <Button type="submit" size="sm" disabled={creating} className="self-start">
             {creating ? "Adicionando..." : "Adicionar experiência"}

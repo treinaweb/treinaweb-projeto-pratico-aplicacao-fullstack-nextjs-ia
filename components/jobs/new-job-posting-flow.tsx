@@ -5,25 +5,20 @@ import { useActionState, useState, startTransition } from "react";
 import {
   createJobPostingAction,
   parseJobPostingAction,
-} from "@/app/jobs/actions";
+} from "@/app/(app)/jobs/actions";
 import type { JobPostingData } from "@/lib/validation/job-posting";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-const WORK_MODEL_LABELS: Record<string, string> = {
-  REMOTE: "Remoto",
-  HYBRID: "Híbrido",
-  ONSITE: "Presencial",
-};
+import { WORK_MODEL_LABELS } from "@/lib/jobs/labels";
 
 const TEXTAREA_CLASS =
-  "rounded-md border border-input bg-background px-3 py-2 text-sm";
+  "rounded-lg border border-input bg-input/30 px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p className="text-sm text-red-600">{message}</p>;
+  return <p className="text-sm text-destructive">{message}</p>;
 }
 
 function TextField({
@@ -67,7 +62,7 @@ function ListField({
         rows={Math.max(3, defaultValue.length + 1)}
         className={TEXTAREA_CLASS}
       />
-      <p className="text-xs text-zinc-500">Um item por linha.</p>
+      <p className="text-xs text-muted-foreground">Um item por linha.</p>
       <FieldError message={error} />
     </div>
   );

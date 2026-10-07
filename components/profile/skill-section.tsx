@@ -1,15 +1,17 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { Sparkles } from "lucide-react";
 
 import {
   createSkill,
   deleteSkill,
   updateSkill,
-} from "@/app/profile/actions";
+} from "@/app/(app)/profile/actions";
 import type { SkillModel } from "@/lib/generated/prisma/models";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SectionTitle } from "@/components/profile/section-title";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -31,7 +33,7 @@ function SkillFields({
         defaultValue={item?.name ?? ""}
       />
       {fieldErrors?.name && (
-        <p className="text-sm text-red-600">{fieldErrors.name}</p>
+        <p className="text-sm text-destructive">{fieldErrors.name}</p>
       )}
     </div>
   );
@@ -66,7 +68,7 @@ function EditSkillForm({
           item={item}
           fieldErrors={state?.fieldErrors}
         />
-        {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+        {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
       </div>
       <Button type="submit" size="sm" disabled={pending}>
         {pending ? "Salvando..." : "Salvar"}
@@ -88,7 +90,7 @@ export function SkillSection({ items }: { items: SkillModel[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Habilidades</CardTitle>
+        <SectionTitle icon={Sparkles} title="Habilidades" count={items.length} />
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {items.map((item) =>
@@ -103,7 +105,7 @@ export function SkillSection({ items }: { items: SkillModel[] }) {
               key={item.id}
               className="flex items-center justify-between gap-4 rounded-md border border-border p-3"
             >
-              <p className="text-black dark:text-zinc-50">{item.name}</p>
+              <p className="text-foreground">{item.name}</p>
               <div className="flex shrink-0 gap-2">
                 <Button
                   type="button"
@@ -135,7 +137,7 @@ export function SkillSection({ items }: { items: SkillModel[] }) {
           </Button>
         </form>
         {createState?.error && (
-          <p className="text-sm text-red-600">{createState.error}</p>
+          <p className="text-sm text-destructive">{createState.error}</p>
         )}
       </CardContent>
     </Card>

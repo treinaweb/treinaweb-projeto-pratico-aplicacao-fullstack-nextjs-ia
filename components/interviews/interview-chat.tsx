@@ -5,7 +5,7 @@ import { DefaultChatTransport, type UIMessage } from "ai";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 
-import { endInterviewAction } from "@/app/interviews/actions";
+import { endInterviewAction } from "@/app/(app)/interviews/actions";
 import {
   ANSWER_MAX_LENGTH,
   INTERVIEW_QUESTION_LIMIT,
@@ -25,8 +25,8 @@ function MessageBubble({ message }: { message: UIMessage }) {
       <div
         className={
           isInterviewer
-            ? "max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-4 py-3 text-sm text-zinc-800 shadow-sm ring-1 ring-zinc-200 dark:bg-zinc-900 dark:text-zinc-100 dark:ring-zinc-800"
-            : "max-w-[85%] rounded-2xl rounded-tr-sm bg-zinc-900 px-4 py-3 text-sm text-white dark:bg-zinc-100 dark:text-zinc-900"
+            ? "max-w-[85%] rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-body"
+            : "max-w-[85%] rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm text-primary-foreground"
         }
       >
         <p className="mb-1 text-xs font-medium opacity-60">
@@ -114,11 +114,11 @@ export function InterviewChat({
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-4">
         {isCompleted ? (
-          <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+          <span className="rounded-full border border-border bg-secondary px-3 py-1 text-xs font-medium text-body">
             Concluída
           </span>
         ) : (
-          <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <span className="text-sm font-medium text-body">
             Pergunta {questionNumber} de {INTERVIEW_QUESTION_LIMIT}
           </span>
         )}
@@ -163,7 +163,7 @@ export function InterviewChat({
           <MessageBubble key={message.id} message={message} />
         ))}
         {status === "submitted" && (
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-muted-foreground">
             O entrevistador está digitando…
           </p>
         )}
@@ -171,7 +171,7 @@ export function InterviewChat({
       </div>
 
       {error && (
-        <div className="flex flex-wrap items-center gap-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+        <div className="flex flex-wrap items-center gap-3 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
           <span>
             Não foi possível obter a resposta do entrevistador.
           </span>
@@ -190,12 +190,15 @@ export function InterviewChat({
       )}
 
       {isCompleted ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           Esta entrevista foi concluída. A transcrição acima fica salva para
           consulta.
         </p>
       ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <form
+          onSubmit={handleSubmit}
+          className="sticky bottom-0 -mx-4 flex flex-col gap-2 border-t border-border bg-background/90 px-4 pt-3 pb-4 backdrop-blur-md md:-mx-8 md:px-8"
+        >
           <textarea
             value={input}
             onChange={(event) => setInput(event.target.value)}
@@ -208,14 +211,14 @@ export function InterviewChat({
             rows={4}
             disabled={status !== "ready" || !!error}
             placeholder="Escreva sua resposta… (Enter envia, Shift+Enter quebra linha)"
-            className="rounded-md border border-input bg-background px-3 py-2 text-sm disabled:opacity-60"
+            className="rounded-lg border border-input bg-input/30 px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-60"
           />
           <div className="flex items-center justify-between gap-4">
             <span
               className={
                 input.length > ANSWER_MAX_LENGTH
-                  ? "text-xs text-red-600"
-                  : "text-xs text-zinc-500"
+                  ? "text-xs text-destructive"
+                  : "text-xs text-muted-foreground"
               }
             >
               {input.length}/{ANSWER_MAX_LENGTH}
@@ -224,7 +227,7 @@ export function InterviewChat({
               {busy ? "Aguardando…" : "Enviar resposta"}
             </Button>
           </div>
-          {inputError && <p className="text-sm text-red-600">{inputError}</p>}
+          {inputError && <p className="text-sm text-destructive">{inputError}</p>}
         </form>
       )}
     </div>

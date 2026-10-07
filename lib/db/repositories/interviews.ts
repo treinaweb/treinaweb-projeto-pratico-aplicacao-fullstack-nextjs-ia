@@ -134,3 +134,10 @@ export async function interviewMessageExists(id: string) {
   });
   return message !== null;
 }
+
+export async function hasInterviewInProgress(userId: string) {
+  const count = await prisma.interviewSession.count({
+    where: { userId, status: "IN_PROGRESS" },
+  });
+  return count > 0;
+}

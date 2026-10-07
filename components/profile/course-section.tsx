@@ -1,15 +1,17 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { Award } from "lucide-react";
 
 import {
   createCourse,
   deleteCourse,
   updateCourse,
-} from "@/app/profile/actions";
+} from "@/app/(app)/profile/actions";
 import type { CourseModel } from "@/lib/generated/prisma/models";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SectionTitle } from "@/components/profile/section-title";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -37,7 +39,7 @@ function CourseFields({
           defaultValue={item?.name ?? ""}
         />
         {fieldErrors?.name && (
-          <p className="text-sm text-red-600">{fieldErrors.name}</p>
+          <p className="text-sm text-destructive">{fieldErrors.name}</p>
         )}
       </div>
       <div className="flex flex-col gap-1.5">
@@ -48,7 +50,7 @@ function CourseFields({
           defaultValue={item?.institution ?? ""}
         />
         {fieldErrors?.institution && (
-          <p className="text-sm text-red-600">{fieldErrors.institution}</p>
+          <p className="text-sm text-destructive">{fieldErrors.institution}</p>
         )}
       </div>
       <div className="flex gap-4">
@@ -61,7 +63,7 @@ function CourseFields({
             defaultValue={toDateInputValue(item?.completedAt ?? null)}
           />
           {fieldErrors?.completedAt && (
-            <p className="text-sm text-red-600">{fieldErrors.completedAt}</p>
+            <p className="text-sm text-destructive">{fieldErrors.completedAt}</p>
           )}
         </div>
         <div className="flex flex-1 flex-col gap-1.5">
@@ -76,7 +78,7 @@ function CourseFields({
             defaultValue={item?.workloadHours ?? ""}
           />
           {fieldErrors?.workloadHours && (
-            <p className="text-sm text-red-600">{fieldErrors.workloadHours}</p>
+            <p className="text-sm text-destructive">{fieldErrors.workloadHours}</p>
           )}
         </div>
       </div>
@@ -112,7 +114,7 @@ function EditCourseForm({
         item={item}
         fieldErrors={state?.fieldErrors}
       />
-      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
       <div className="flex gap-2">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? "Salvando..." : "Salvar"}
@@ -135,7 +137,7 @@ export function CourseSection({ items }: { items: CourseModel[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Cursos e certificações</CardTitle>
+        <SectionTitle icon={Award} title="Cursos e certificações" count={items.length} />
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {items.map((item) =>
@@ -151,11 +153,11 @@ export function CourseSection({ items }: { items: CourseModel[] }) {
               className="flex items-start justify-between gap-4 rounded-md border border-border p-4"
             >
               <div>
-                <p className="font-medium text-black dark:text-zinc-50">
+                <p className="font-medium text-foreground">
                   {item.name}
                 </p>
                 {item.institution && (
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="text-sm text-muted-foreground">
                     {item.institution}
                   </p>
                 )}
@@ -185,7 +187,7 @@ export function CourseSection({ items }: { items: CourseModel[] }) {
             fieldErrors={createState?.fieldErrors}
           />
           {createState?.error && (
-            <p className="text-sm text-red-600">{createState.error}</p>
+            <p className="text-sm text-destructive">{createState.error}</p>
           )}
           <Button type="submit" size="sm" disabled={creating} className="self-start">
             {creating ? "Adicionando..." : "Adicionar curso"}
