@@ -48,4 +48,8 @@ The system SHALL restrict access to authenticated-only areas of the platform to 
 
 #### Scenario: Authenticated access to a protected area
 - **WHEN** a candidate with an active session requests the dashboard
-- **THEN** they see the dashboard, including their account information and a way to log out
+- **THEN** they see the dashboard, with their account information and a way to log out available in the app shell
+
+#### Scenario: Account information on every protected page
+- **WHEN** a candidate with an active session opens any other authenticated-only page
+- **THEN** their account information and a way to log out are available in the app shell there too
