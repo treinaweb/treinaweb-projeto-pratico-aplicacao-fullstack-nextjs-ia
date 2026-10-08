@@ -31,3 +31,21 @@ export const changePasswordSchema = z
   });
 
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email: z.email("Informe um e-mail válido."),
+});
+
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z.string().min(8, "A senha deve ter pelo menos 8 caracteres."),
+    confirmPassword: z.string().min(1, "Confirme a nova senha."),
+  })
+  .refine((data) => data.confirmPassword === data.newPassword, {
+    message: "As senhas não coincidem.",
+    path: ["confirmPassword"],
+  });
+
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

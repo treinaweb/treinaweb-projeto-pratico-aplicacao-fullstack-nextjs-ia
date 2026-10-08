@@ -16,5 +16,13 @@ services:
       timeout: 5s
       retries: 5
 
+  # Catches every email sent in development. Web UI: http://localhost:8025
+  mailpit:
+    image: axllent/mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
 volumes:
   twjobs_postgres_data:

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { Suspense, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { authClient } from "@/lib/auth/client";
 import { loginSchema } from "@/lib/validation/auth";
 import { AuthShell } from "@/components/auth/auth-shell";
+import { ResetSuccessNotice } from "@/components/auth/reset-success-notice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,7 +56,11 @@ export default function LoginPage() {
       title="Entrar"
       description="Acesse sua conta para continuar sua preparação."
     >
-      <div>
+      <div className="flex flex-col gap-4">
+        <Suspense>
+          <ResetSuccessNotice />
+        </Suspense>
+
         <form
           className="flex flex-col gap-4"
           onSubmit={handleSubmit}
@@ -89,6 +94,13 @@ export default function LoginPage() {
             {fieldErrors.password && (
               <p className="text-sm text-destructive">{fieldErrors.password}</p>
             )}
+            {/* After the input so Tab goes from e-mail straight to the password. */}
+            <Link
+              href="/forgot-password"
+              className="w-fit self-end text-sm font-medium text-primary hover:underline"
+            >
+              Esqueci minha senha
+            </Link>
           </div>
 
           {formError && <p className="text-sm text-destructive">{formError}</p>}
@@ -98,7 +110,7 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-muted-foreground">
+        <p className="mt-2 text-center text-sm text-muted-foreground">
           Ainda não tem conta?{" "}
           <Link
             href="/register"
