@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronsUpDown, LogOut, UserRound } from "lucide-react";
+import { ChevronsUpDown, KeyRound, LogOut, UserRound } from "lucide-react";
 
 import { useSignOut } from "@/components/auth/use-sign-out";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -79,6 +79,12 @@ export function UserMenu({ name, email }: { name: string; email: string }) {
             >
               <UserRound />
               Meu perfil
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              render={<Link href="/account" onClick={() => setOpenMobile(false)} />}
+            >
+              <KeyRound />
+              Minha conta
             </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
