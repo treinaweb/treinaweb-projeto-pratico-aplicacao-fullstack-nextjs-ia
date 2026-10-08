@@ -7,10 +7,10 @@ The app shell is the navigation frame shared by every signed-in page: it lets th
 ## Requirements
 
 ### Requirement: Shell on signed-in pages only
-The system SHALL wrap every signed-in page (dashboard, profile, job postings, resumes, interviews, and their detail and creation pages) in the app shell, and SHALL NOT show it on the landing, login, or registration pages.
+The system SHALL wrap every signed-in page (dashboard, profile, account, job postings, resumes, interviews, and their detail and creation pages) in the app shell, and SHALL NOT show it on the landing, login, or registration pages.
 
 #### Scenario: Signed-in page
-- **WHEN** a signed-in candidate opens any page under job postings, resumes, interviews, profile, or the dashboard
+- **WHEN** a signed-in candidate opens any page under job postings, resumes, interviews, profile, account, or the dashboard
 - **THEN** the page is shown inside the app shell
 
 #### Scenario: Public page
@@ -58,8 +58,12 @@ The shell SHALL show an indicator on the Entrevistas item while the candidate ha
 - **THEN** the indicator is no longer shown
 
 ### Requirement: Account menu
-The shell SHALL show the signed-in candidate's name and email, and SHALL offer access to their profile and a logout action.
+The shell SHALL show the signed-in candidate's name and email, and SHALL offer access to their profile, their account page (where the password is changed), and a logout action.
 
 #### Scenario: Logging out from any page
 - **WHEN** a candidate on any signed-in page chooses to log out from the account menu
 - **THEN** their session is ended and they are taken to a page that does not require authentication
+
+#### Scenario: Opening the account page from any page
+- **WHEN** a candidate on any signed-in page chooses "Minha conta" from the account menu
+- **THEN** the account page opens with the change-password form
